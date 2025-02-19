@@ -23,6 +23,8 @@ jobs:
         run: |
           git clone https://github.com/riscv/riscv-gnu-toolchain
           cd riscv-gnu-toolchain
+          sed -i '/shallow = true/d' .gitmodules
+          sed -i 's/--depth 1//g' Makefile.in
           ./configure --prefix=/opt/riscv --with-arch=rv32im --with-abi=ilp32
           make -j $(nproc)
 
