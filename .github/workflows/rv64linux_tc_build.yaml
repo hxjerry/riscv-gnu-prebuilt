@@ -27,7 +27,7 @@ jobs:
           make linux
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: riscv-toolchain-rv64-linux
           path: /opt/riscv
