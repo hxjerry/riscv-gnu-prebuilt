@@ -1,0 +1,37 @@
+name: MSYS2
+
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Run the RISC-V Toolchain build'
+        required: true
+        default: 'yes'
+
+jobs:
+  msys2-ucrt64:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: git mingw-w64-ucrt-x86_64-gcc
+      - name: CI-Build
+        run: |
+          pacman -Sy autoconf automake curl autotools python mpc-devel gmp-devel gawk bison flex libtool patchutils bc zlib-devel libexpat-devel ninja cmake glib2-devel git gcc
+          git clone https://github.com/riscv/riscv-gnu-toolchain
+          cd riscv-gnu-toolchain
+          sed -i '/shallow = true/d' .gitmodules
+          sed -i 's/--depth 1//g' Makefile.in
+          ./configure --prefix=/opt/riscv --with-arch=rv32im --with-abi=ilp32
+          make -j $(nproc)
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: riscv-toolchain-rv32-newlib
+          path: ${{ steps.msys2.outputs.msys2-location }}/opt/riscv
