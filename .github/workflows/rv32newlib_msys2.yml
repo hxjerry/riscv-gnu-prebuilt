@@ -1,4 +1,4 @@
-name: MSYS2
+name: rv32newlib_msys2
 
 on:
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
           install: git mingw-w64-ucrt-x86_64-gcc
       - name: CI-Build
         run: |
-          pacman -Sy autoconf automake curl autotools python mpc-devel gmp-devel gawk bison flex libtool patchutils bc zlib-devel libexpat-devel ninja cmake glib2-devel git gcc
+          pacman -S --noconfirm autoconf automake curl autotools python mpc-devel gmp-devel gawk bison flex libtool patchutils bc zlib-devel libexpat-devel ninja cmake glib2-devel git gcc
           git clone https://github.com/riscv/riscv-gnu-toolchain
           cd riscv-gnu-toolchain
           sed -i '/shallow = true/d' .gitmodules
