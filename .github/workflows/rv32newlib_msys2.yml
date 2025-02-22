@@ -24,6 +24,7 @@ jobs:
       - name: CI-Build
         run: |
           mkdir build
+          mkdir /d/opt
           Fsutil.exe file SetCaseSensitiveInfo build
           cd build
           pacman -S --noconfirm autoconf automake texinfo curl autotools python mpc-devel gmp-devel gawk bison flex libtool patchutils bc zlib-devel libexpat-devel ninja cmake glib2-devel git gcc
@@ -37,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: riscv-toolchain-rv32-newlib
-          path: ${{ steps.msys2.outputs.msys2-location }}/opt/riscv
+          path: /d/opt/riscv
