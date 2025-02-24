@@ -27,13 +27,13 @@ jobs:
           mkdir /d/opt
           Fsutil.exe file SetCaseSensitiveInfo build
           cd build
-          pacman -S --noconfirm autoconf automake texinfo curl autotools python mpc-devel gmp-devel gawk bison flex libtool patchutils bc zlib-devel libexpat-devel ninja cmake glib2-devel git gcc
+          pacman -S --noconfirm mingw-w64-ucrt-x86_64-gcc autoconf automake texinfo curl autotools python mpc-devel gmp-devel gawk bison flex libtool patchutils bc zlib-devel libexpat-devel ninja cmake glib2-devel git gcc
           git clone https://github.com/riscv/riscv-gnu-toolchain
           cd riscv-gnu-toolchain
           sed -i '/shallow = true/d' .gitmodules
           sed -i 's/--depth 1//g' Makefile.in
-          ./configure --prefix=/d/opt/riscv --with-arch=rv32im --with-abi=ilp32 --disable-gdb
-          make -j $(nproc)
+          CC=x86_64-w64-mingw32-gcc ./configure --prefix=/d/opt/riscv --with-arch=rv32im --with-abi=ilp32 --disable-gdb
+          make -j 6
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
