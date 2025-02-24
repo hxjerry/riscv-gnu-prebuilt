@@ -32,7 +32,8 @@ jobs:
           cd riscv-gnu-toolchain
           sed -i '/shallow = true/d' .gitmodules
           sed -i 's/--depth 1//g' Makefile.in
-          CC=x86_64-w64-mingw32-gcc ./configure --prefix=/d/opt/riscv --with-arch=rv32im --with-abi=ilp32 --disable-gdb
+          export CC=x86_64-w64-mingw32-gcc 
+          ./configure --prefix=/d/opt/riscv --with-arch=rv32im --with-abi=ilp32 --disable-gdb
           make -j 6
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
